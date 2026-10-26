@@ -1,0 +1,39 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug ETISS (bare_etiss_processor)",
+      "type": "cppdbg",
+      "request": "launch",
+
+      // ETISS itself is the program we debug (build it with debug first:
+      // scripts/build_etiss.sh -b Debug).
+      "program": "${workspaceFolder}/etiss/build/installed/bin/bare_etiss_processor",
+
+      // Args mirror how CTest launches ETISS, with a guest test ELF selected.
+      // Change the --vp.elf_file path to debug a different test binary.
+      "args": [
+        "-i", "${workspaceFolder}/programs/runtime/ini/etiss.ini",
+        "--arch.cpu", "RV32IMACFDV_zvl128b",
+        "--vp.elf_file",
+        "${workspaceFolder}/programs/build/suites/riscv-vector-tests/generated/bin/vid_v-0.elf",
+        "--vp.quiet", "true"
+      ],
+
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+
+      "MIMode": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}
