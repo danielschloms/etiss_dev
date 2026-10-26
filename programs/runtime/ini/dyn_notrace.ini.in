@@ -1,0 +1,3 @@
+[Plugin PerformanceEstimatorPlugin]
+plugin.perfEst.uArch=Vicuna_zvl@VREG_W@b
+plugin.perfEst.print=0

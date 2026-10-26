@@ -1,0 +1,18 @@
+# Spec file for semihosting syscalls.
+
+%rename lib	old_lib
+%rename link	old_link
+%rename startfile	old_startfile
+
+*lib:
+# Place etiss_crt0 (which provides _exit from sh_exit.c, SYS_EXIT_EXTENDED 0x20)
+# right after -lc and before -lsemihost. _exit is first referenced by libc's
+# exit.o, so the next archive scanned that also defines _exit wins; we want
+# etiss_crt0 rather than the plain SYS_EXIT 0x18 from libsemihost.a.
+--start-group -lc -letiss_crt0 -lsemihost --end-group
+
+*link:
+%(old_link) %:replace-outfile(-lgloss -lsemihost)
+
+*startfile:
+crtbegin%O%s
